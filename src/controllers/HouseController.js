@@ -1,5 +1,6 @@
 import House from "../models/House";
 import User from "../models/User";
+import * as Yup from "yup";
 
 class HouseController {
   // filtro se a casa esta disponivel ou nao
@@ -14,9 +15,23 @@ class HouseController {
 
   // cadastrando uma nova casa
   async store(req, res) {
+    // schema de validacao de dados!
+    const schema = Yup.object().shape({
+      description: Yup.string().required(),
+      price: Yup.number().required(),
+      location: Yup.string().required(),
+      status: Yup.boolean().required(),
+    });
+
     const { filename } = req.file;
     const { description, price, location, status } = req.body;
     const { user_id } = req.headers;
+
+    if (!(await schema.isValid(req.body))) {
+      res
+        .status(400)
+        .json({ error: "Alguns dados foram enviados incorretamente. " });
+    }
 
     const house = await House.create({
       user: user_id,
@@ -32,11 +47,24 @@ class HouseController {
 
   // editando uma casa
   async update(req, res) {
+    const schema = Yuo.object().shape({
+      description: Yuo.string().required(),
+      price: Yuo.number().required(),
+      location: Yuo.string().required(),
+      status: Yuo.boolean().required(),
+    });
+
     // recebendo id da casa que quero editar
     const { house_id } = req.params;
     const { filename } = req.file;
     const { description, price, location, status } = req.body;
     const { user_id } = req.headers;
+
+    if (!(await schema.isValid(req.body))) {
+      res
+        .status(400)
+        .json({ error: "Alguns dados foram enviados incorretamente. " });
+    }
 
     const user = await User.findById(user_id);
     const houses = await House.findById(house_id);

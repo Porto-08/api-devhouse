@@ -1,13 +1,23 @@
 import Reserve from "../models/Reserve";
 import House from "../models/House";
 import User from "../models/User";
+import * as Yup from "yup";
 
 class ReserveController {
   async store(req, res) {
+    const schema = Yup.object().shape({
+      date: Yup.string().required()
+    })
+
+
     const { house_id } = req.params;
     const { user_id } = req.headers;
     const { date } = req.body;
 
+    if(!(await schema.isValid())){
+      res.status(400).json({error: "Data requerida. "})
+    }
+    
     const house = await House.findById(house_id);
     if (!house) {
       return res.status(400).json({ error: "Imovel não existe. " });
@@ -43,9 +53,9 @@ class ReserveController {
   async destroy(req, res) {
     const { reserve_id } = req.body;
 
-    await  Reserve.findByIdAndDelete({ _id: reserve_id });
+    await Reserve.findByIdAndDelete({ _id: reserve_id });
 
-    res.send()
+    res.send();
   }
 }
 
