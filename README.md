@@ -1,6 +1,5 @@
 # api-devhouse
- A api foi desenvolvida para fins de estudo, ela consiste em uma aplicação de alugueis de imóveis. É possível cadastro e login de usuários, cadastro, edição e exclusão de Imóveis,
- fazer reservas e cancelar reservas. Cada usuario pôde ver seus imóveis e reservas cadastrados. 
+ A api foi desenvolvida para fins de estudo, ela consiste em uma aplicação de alugueis de imóveis. É possível realizar cadastro e login de usuários. Cadastro, edição e exclusão de Imóveis, fazer reservas e cancelar reservas. Cada usuario pode ver seus imóveis e reservas cadastrados. 
 
 
 
